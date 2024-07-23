@@ -1,0 +1,37 @@
+# Run the explorer with db
+services:
+  alpha-api:
+    container_name: "block-explorer-alpha-api"
+    image: zulunetwork/zulu-prime-block-explorer-api:latest
+    environment:
+      - PORT=3022
+      - METRICS_PORT=3007
+      - LOG_LEVEL=verbose
+      - DATABASE_URL=postgres://postgres:postgres@localhost:5434/block-explorer-alpha
+    ports:
+      - '3022:3022'
+      - '3007:3007'
+    restart: unless-stopped
+  alpha-postgres:
+    container_name: "block-explorer-alpha-api-postgres"
+    image: "postgres:16"
+    logging:
+      driver: none
+    volumes:
+      - ~/volumes/postgres-16/data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=block-explorer-alpha
+    expose:
+      - "5434" # Publishes 5434 to other containers but NOT to host machine
+    ports:
+      - "5434:5434"
+    command: -p 5434
+
+

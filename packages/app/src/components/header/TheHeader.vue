@@ -4,8 +4,8 @@
       <div class="header-container">
         <div class="logo-container">
           <router-link :to="{ name: 'home' }">
-            <span class="sr-only">zkSync</span>
-            <zk-sync-era />
+            <span class="sr-only">ZuluPrime</span>
+            <ZuluTextLogo />
           </router-link>
         </div>
         <div class="burger-button-container">
@@ -34,7 +34,7 @@
             :value="(locale as string)"
             @update:value="changeLanguage"
             :options="
-              ['en', 'uk'].map((value) => ({
+              ['en'].map((value) => ({
                 value,
                 label: t(`locale.${value}`),
               }))
@@ -53,7 +53,7 @@
       class="hero-banner-container"
       :class="[`${currentNetwork.name}`, { 'home-banner': route.path === '/' }]"
     >
-      <hero-arrows class="hero-image" />
+      <!-- <hero-arrows class="hero-image" /> -->
     </div>
     <transition
       enter-active-class="duration-200 ease-out"
@@ -68,7 +68,7 @@
           <div class="mobile-header-container">
             <div class="mobile-popover-navigation">
               <div class="popover-zksync-logo">
-                <zk-sync class="logo" />
+                <ZuluLogo class="logo" />
               </div>
               <div class="-mr-2">
                 <PopoverButton class="close-popover-button">
@@ -142,10 +142,9 @@ import LinksPopover from "./LinksPopover.vue";
 import LocaleSwitch from "@/components/LocaleSwitch.vue";
 import NetworkSwitch from "@/components/NetworkSwitch.vue";
 import DiscordIcon from "@/components/icons/DiscordIcon.vue";
-import HeroArrows from "@/components/icons/HeroArrows.vue";
 import TwitterIcon from "@/components/icons/TwitterIcon.vue";
-import ZkSync from "@/components/icons/ZkSync.vue";
-import ZkSyncEra from "@/components/icons/ZkSyncEra.vue";
+import ZuluTextLogo from "@/components/icons/ZuluText.vue";
+import ZuluLogo from "@/components/icons/Zulu.vue";
 
 import useContext from "@/composables/useContext";
 import useLocalization from "@/composables/useLocalization";
@@ -159,7 +158,8 @@ const { currentNetwork } = useContext();
 const navigation = reactive([
   {
     label: computed(() => t("header.nav.documentation")),
-    url: "https://docs.zksync.io/build/tooling/block-explorer/getting-started.html",
+    // url: "https://docs.zksync.io/build/tooling/block-explorer/getting-started.html",// TODO write docs later
+    url: "https://docs.zulunetwork.io/introduction/welcome-to-zulu",
   },
 ]);
 
@@ -203,8 +203,8 @@ if (currentNetwork.value.bridgeUrl) {
 const toolsLinks = reactive(links);
 
 const socials = [
-  { url: "https://join.zksync.dev/", component: DiscordIcon },
-  { url: "https://twitter.com/zksync", component: TwitterIcon },
+  { url: "https://discord.gg/ZVaQPjhxTG", component: DiscordIcon },
+  { url: "https://twitter.com/zulu_network", component: TwitterIcon },
 ];
 
 const hasContent = computed(() => {
@@ -299,7 +299,9 @@ const hasContent = computed(() => {
     }
   }
   .hero-banner-container {
-    @apply absolute left-0 top-full flex h-64 w-full items-end justify-end overflow-hidden bg-primary-900;
+    @apply absolute left-0 top-0 flex h-[20rem] w-full items-end justify-end overflow-hidden bg-primary-900;
+
+    background: url(/images/banner-bg.png) center / cover no-repeat;
 
     &.goerli {
       @apply h-[25rem] md:h-[23rem] lg:h-[19rem];
@@ -310,10 +312,10 @@ const hasContent = computed(() => {
     }
   }
   .home-banner {
-    @apply h-80;
+    @apply h-[25rem];
 
     &.goerli {
-      @apply h-[30rem] md:h-[27rem] lg:h-[24rem];
+      @apply h-[30rem] md:h-[27rem] lg:h-[29rem];
     }
   }
 }
